@@ -51,7 +51,7 @@ class CodingChallengePresenter(
 
         val updatedUser = User(
             id = lastUser.id,
-            name = "New name",
+            name = UPDATED_NAME,
             gender = lastUser.gender,
             email = lastUser.email,
             status = lastUser.status
@@ -73,5 +73,6 @@ class CodingChallengePresenter(
         private const val PAGE_NO = 3
         private const val NON_EXISTENT_USER = 5555
         private const val VALID_USER = 3875
+        private const val UPDATED_NAME = "New name"
     }
 }
