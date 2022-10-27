@@ -30,10 +30,15 @@ class CodingChallengeModel : CodingChallengeContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ it ->
                     it.let {
-                        if (it.isEmpty()) {
-                            onResponseListener.emptyResponse()
-                        } else {
-                            onResponseListener.UsersResponse(it)
+                        val totalPages = it.headers().get(TOTAL_PAGE_NUMBER)
+                        onResponseListener.totalPages(totalPages)
+                        it.body().let { usersList ->
+                            if (usersList.isNullOrEmpty()) {
+                                onResponseListener.emptyResponse()
+                            } else {
+                                onResponseListener.usersResponse(usersList)
+                            }
+
                         }
                     }
                 }, {
@@ -69,10 +74,10 @@ class CodingChallengeModel : CodingChallengeContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     if (it != null) {
-                        onResponseListener.UserResponse(it)
+                        onResponseListener.userResponse(it)
                     }
                 }, {
-                    onResponseListener.showMessage(it.localizedMessage.toString())
+                    onResponseListener.showMessage(it.message.toString())
                 }
                 )
         )
@@ -103,5 +108,6 @@ class CodingChallengeModel : CodingChallengeContract.Model {
 
     companion object {
         const val TAG = "CodingChallengeModel"
+        const val TOTAL_PAGE_NUMBER = "X-Pagination-Pages"
     }
 }

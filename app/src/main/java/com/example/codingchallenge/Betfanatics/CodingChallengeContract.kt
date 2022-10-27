@@ -27,9 +27,10 @@ interface CodingChallengeContract {
 
         interface OnResponseListener {
             fun emptyResponse()
-            fun UsersResponse(users: ArrayList<User>)
-            fun UserResponse(it: User)
+            fun usersResponse(users: ArrayList<User>)
+            fun userResponse(it: User)
             fun showMessage(errorMessage: String)
+            fun totalPages(totalPages: String?)
         }
     }
 }

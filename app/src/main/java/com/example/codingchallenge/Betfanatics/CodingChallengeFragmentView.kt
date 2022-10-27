@@ -1,11 +1,13 @@
 package com.example.codingchallenge.Betfanatics
 
+import android.content.Context
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -44,16 +46,19 @@ class CodingChallengeFragmentView : Fragment(), CodingChallengeContract.View {
         btnLoadPageNo = view.findViewById<Button?>(R.id.btn_load_page_no).apply {
             setOnClickListener {
                 presenter.retrievePage(etPageNo.text.toString())
+                it.hideKeyboard()
             }
         }
         btnDeleteUser = view.findViewById<Button?>(R.id.btn_delete).apply {
             setOnClickListener {
                 presenter.deleteUser(etDelete.text.toString())
+                it.hideKeyboard()
             }
         }
         btnRetrieveUser = view.findViewById<Button?>(R.id.btn_retrieve_user).apply {
             setOnClickListener {
                 presenter.retrieveUser(etRetrieveUser.text.toString())
+                it.hideKeyboard()
             }
         }
         tvMessageBox = view.findViewById(R.id.tv_message_box)
@@ -74,6 +79,12 @@ class CodingChallengeFragmentView : Fragment(), CodingChallengeContract.View {
         const val TAG = "HomeFragmentView"
         fun newInstance() = CodingChallengeFragmentView()
 
+    }
+
+    fun View.hideKeyboard() {
+        val inputManager =
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 
     override fun showMessage(message: String) {

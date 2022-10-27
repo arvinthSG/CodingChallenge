@@ -4,17 +4,6 @@ import android.util.Log
 import com.example.codingchallenge.Data.User
 import kotlin.collections.ArrayList
 
-
-//Retrieve page 3 of the list of all users. - DONE
-//Using a logger, log the total number of pages from the previous request.
-//Sort the retrieved user list by name. - DONE
-//After sorting, log the name of the last user. - DONE
-//Update that user's name to a new value and use the correct http method to save it - done
-//Delete that user - done
-//Attempt to retrieve a nonexistent user with ID 5555. Log the resulting http response code. - DONE
-//Write unit tests for all code, mocking out calls to the actual API service.
-
-
 class CodingChallengePresenter(
     private val codingChallengeView: CodingChallengeContract.View,
     private val codingChallengeModel: CodingChallengeContract.Model
@@ -60,7 +49,7 @@ class CodingChallengePresenter(
         Log.d(TAG, "emptyResponse()")
     }
 
-    override fun UsersResponse(users: ArrayList<User>) {
+    override fun usersResponse(users: ArrayList<User>) {
         users.sortBy { it.name }
         val lastUser = users[users.size - 1]
         val userDetails = "Last user name: ${lastUser.name} id:${lastUser.id}"
@@ -80,21 +69,22 @@ class CodingChallengePresenter(
 //        codingChallengeModel.deleteUser(updatedUser.id.toInt())
     }
 
-    override fun UserResponse(it: User) {
+    override fun userResponse(it: User) {
         Log.d(TAG, "user response $it")
-        val updatedUser = User(
-            id = it.id,
-            name = UPDATED_NAME,
-            gender = it.gender,
-            email = it.email,
-            status = it.status
-        )
         codingChallengeView.showMessage(it.toString())
     }
 
     override fun showMessage(errorMessage: String) {
         Log.d(TAG, "onErrorResponse $errorMessage")
         codingChallengeView.showMessage(errorMessage)
+    }
+
+    override fun totalPages(totalPages: String?) {
+        totalPages.let {
+            val message = "Total Pages: $totalPages"
+            Log.d(TAG, message)
+            codingChallengeView.showMessage(message)
+        }
     }
 
     companion object {
