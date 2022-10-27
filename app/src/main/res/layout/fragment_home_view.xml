@@ -1,14 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".Betfanatics.CodingChallengeFragmentView">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/tv_message_box"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_large"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_retrieve_user"
+            tools:text="test message" />
+        
+        <EditText
+            android:id="@+id/et_page_no"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_a_page_no"
+            app:layout_constraintEnd_toStartOf="@id/btn_load_page_no"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btn_load_page_no" />
+
+        <EditText
+            android:id="@+id/et_delete_user_id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/id_to_delete"
+            app:layout_constraintEnd_toStartOf="@id/btn_delete"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btn_delete" />
+
+        <Button
+            android:id="@+id/btn_load_page_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/load_page_3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Load page 3" />
+
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delete_the_user"
+            app:layout_constraintStart_toStartOf="@id/btn_load_page_no"
+            app:layout_constraintTop_toBottomOf="@id/btn_load_page_no" />
+
+        <EditText
+            android:id="@+id/et_user_id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/userid_to_get"
+            app:layout_constraintEnd_toStartOf="@id/btn_retrieve_user"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btn_retrieve_user" />
+
+        <Button
+            android:id="@+id/btn_retrieve_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/retrieve_user"
+            app:layout_constraintStart_toStartOf="@id/btn_delete"
+            app:layout_constraintTop_toBottomOf="@id/btn_delete" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

@@ -14,18 +14,18 @@ class CodingChallengeModel : CodingChallengeContract.Model {
 
     private lateinit var onResponseListener: OnResponseListener
     private lateinit var service: Retrofit
-    private lateinit var getCodingChallengeService: CodingChallengeService
+    private lateinit var codingChallengeService: CodingChallengeService
     private val compositeDisposable = CompositeDisposable()
 
     override fun init(onResponseListener: OnResponseListener) {
         this.onResponseListener = onResponseListener
         service = CodingChallengeNetworkInstance.provideNetworkInstance()
-        getCodingChallengeService = service.create(CodingChallengeService::class.java)
+        codingChallengeService = service.create(CodingChallengeService::class.java)
     }
 
     override fun getUsersByPageNo(pageNo: Int) {
         compositeDisposable.add(
-            getCodingChallengeService.getUserByPageNo(pageNo)
+            codingChallengeService.getUserByPageNo(pageNo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ it ->
@@ -36,7 +36,6 @@ class CodingChallengeModel : CodingChallengeContract.Model {
                             onResponseListener.UsersResponse(it)
                         }
                     }
-
                 }, {
                     Log.d(TAG, it.message.toString())
                 }
@@ -45,12 +44,27 @@ class CodingChallengeModel : CodingChallengeContract.Model {
     }
 
     override fun updateUser(updatedUser: User) {
-
+        compositeDisposable.add(
+            codingChallengeService.updateUser(updatedUser.id.toInt(), updatedUser)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        if (it.isSuccessful) {
+                            onResponseListener.showMessage("User updated")
+                        } else {
+                            onResponseListener.showMessage("User updation error")
+                        }
+                    }, {
+                        onResponseListener.showMessage(it.message.toString())
+                    }
+                )
+        )
     }
 
     override fun retreiveUser(userID: Int) {
         compositeDisposable.add(
-            getCodingChallengeService.getUsersByID(userID)
+            codingChallengeService.getUsersByID(userID)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -58,11 +72,33 @@ class CodingChallengeModel : CodingChallengeContract.Model {
                         onResponseListener.UserResponse(it)
                     }
                 }, {
-                    onResponseListener.errorResponse(it.localizedMessage.toString())
-//                    Log.d(TAG, it.localizedMessage)
+                    onResponseListener.showMessage(it.localizedMessage.toString())
                 }
                 )
         )
+    }
+
+    override fun deleteUser(userID: Int) {
+        compositeDisposable.add(
+            codingChallengeService.deleteUser(userID)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        if (it.isSuccessful) {
+                            onResponseListener.showMessage("User deleted")
+                        } else {
+                            onResponseListener.showMessage("User deletion failed")
+                        }
+                    }, {
+                        onResponseListener.showMessage(it.message.toString())
+                    }
+                )
+        )
+    }
+
+    override fun destroy() {
+        compositeDisposable.clear()
     }
 
     companion object {
