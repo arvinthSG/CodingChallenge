@@ -24,6 +24,7 @@ To execute tasks 1 - 5, enter a page no in the page no edit text and click on th
 The resulst are updated in the Android logcat as per the requirement but I have also added a text box below these buttons to display the messages.
 
 This is a running list of logs from the tasks that are executed so far and with the use of a NestedScrollView this can be scrolled vertically.
+
 <img width="201" alt="Screen Shot 2022-10-28 at 1 58 12 AM" src="https://user-images.githubusercontent.com/42759060/198547877-7e44787c-25f1-4490-b658-6b0eebd9a217.png">
 
 Task 6 can be executed using the second edittext and button combo. Enter an ID of a user in the edit text and click on the "DELETE USER" button. Result of the action will be then posted to the text box below.
