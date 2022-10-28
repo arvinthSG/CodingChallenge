@@ -10,7 +10,6 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.schedulers.Schedulers
-import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before
 import org.junit.ClassRule
 import org.junit.Rule

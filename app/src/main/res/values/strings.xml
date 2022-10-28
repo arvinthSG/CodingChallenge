@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">CodingChallenge</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="load_page_3">Load users at page 3 </string>
-    <string name="delete_the_user">Delete the User</string>
+    <string name="load_page_3">Load users from page </string>
+    <string name="delete_the_user">Delete User</string>
     <string name="retrieve_user">Retrieve user</string>
-    <string name="enter_a_page_no">Enter a page No</string>
-    <string name="id_to_delete">ID to delete</string>
-    <string name="userid_to_get">UserID to get</string>
+    <string name="enter_a_page_no">Page No</string>
+    <string name="id_to_delete">UserID</string>
+    <string name="userid_to_get">UserID</string>
 </resources>
