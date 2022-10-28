@@ -2,15 +2,22 @@ package com.example.codingchallenge.Betfanatics
 
 import android.util.Log
 import com.example.codingchallenge.Data.User
+import com.example.codingchallenge.Network.CodingChallengeNetworkInstance
+import com.example.codingchallenge.Network.CodingChallengeService
+import retrofit2.Retrofit
 import kotlin.collections.ArrayList
 
 class CodingChallengePresenter(
     private val codingChallengeView: CodingChallengeContract.View,
     private val codingChallengeModel: CodingChallengeContract.Model
 ) : CodingChallengeContract.Presenter, CodingChallengeContract.Model.OnResponseListener {
+
+    private lateinit var service: Retrofit
+
     override fun onViewLoaded() {
         Log.d(TAG, "onViewLoaded()")
-        codingChallengeModel.init(this)
+        service = CodingChallengeNetworkInstance.provideNetworkInstance()
+        codingChallengeModel.init(this, service.create(CodingChallengeService::class.java))
     }
 
     override fun onViewDetached() {

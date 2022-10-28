@@ -1,6 +1,7 @@
 package com.example.codingchallenge.Network
 
 import com.example.codingchallenge.Data.User
+import io.reactivex.Completable
 import io.reactivex.Observable
 import retrofit2.Response
 import retrofit2.http.DELETE
@@ -22,9 +23,8 @@ interface CodingChallengeService {
     fun getUsersByID(@Path("id") id: Int): Observable<User>
 
     @PUT("users/{id}")
-    fun updateUser(@Path("id") id: Int, @Body user: User): Observable<Response<Void>>
+    fun updateUser(@Path("id") id: Int, @Body user: User): Completable
 
     @DELETE("users/{id}")
-    fun deleteUser(@Path("id") id: Int): Observable<Response<Void>>
-
+    fun deleteUser(@Path("id") id: Int): Completable
 }

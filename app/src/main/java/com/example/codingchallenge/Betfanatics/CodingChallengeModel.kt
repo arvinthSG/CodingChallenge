@@ -3,24 +3,23 @@ package com.example.codingchallenge.Betfanatics
 import android.util.Log
 import com.example.codingchallenge.Betfanatics.CodingChallengeContract.Model.OnResponseListener
 import com.example.codingchallenge.Data.User
-import com.example.codingchallenge.Network.CodingChallengeNetworkInstance
 import com.example.codingchallenge.Network.CodingChallengeService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import retrofit2.Retrofit
 
 class CodingChallengeModel : CodingChallengeContract.Model {
 
     private lateinit var onResponseListener: OnResponseListener
-    private lateinit var service: Retrofit
     private lateinit var codingChallengeService: CodingChallengeService
     private val compositeDisposable = CompositeDisposable()
 
-    override fun init(onResponseListener: OnResponseListener) {
+    override fun init(
+        onResponseListener: OnResponseListener,
+        codingChallengeService: CodingChallengeService
+    ) {
         this.onResponseListener = onResponseListener
-        service = CodingChallengeNetworkInstance.provideNetworkInstance()
-        codingChallengeService = service.create(CodingChallengeService::class.java)
+        this.codingChallengeService = codingChallengeService
     }
 
     override fun getUsersByPageNo(pageNo: Int) {
@@ -55,13 +54,9 @@ class CodingChallengeModel : CodingChallengeContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        if (it.isSuccessful) {
-                            onResponseListener.showMessage("User updated")
-                        } else {
-                            onResponseListener.showMessage("User updation error")
-                        }
+                        onResponseListener.showMessage("User updated")
                     }, {
-                        onResponseListener.showMessage(it.message.toString())
+                        onResponseListener.showMessage("User update error: ${it.message}")
                     }
                 )
         )
@@ -90,13 +85,10 @@ class CodingChallengeModel : CodingChallengeContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        if (it.isSuccessful) {
-                            onResponseListener.showMessage("User deleted")
-                        } else {
-                            onResponseListener.showMessage("User deletion failed")
-                        }
+                        onResponseListener.showMessage("User deleted")
+
                     }, {
-                        onResponseListener.showMessage(it.message.toString())
+                        onResponseListener.showMessage("User deletion failed :${it.message}")
                     }
                 )
         )

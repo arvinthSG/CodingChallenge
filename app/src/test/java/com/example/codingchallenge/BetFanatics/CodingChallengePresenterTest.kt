@@ -5,10 +5,13 @@ import com.example.codingchallenge.Betfanatics.CodingChallengeFragmentView
 import com.example.codingchallenge.Betfanatics.CodingChallengeModel
 import com.example.codingchallenge.Betfanatics.CodingChallengePresenter
 import com.example.codingchallenge.Data.User
+import com.example.codingchallenge.Network.CodingChallengeNetworkInstance
+import com.example.codingchallenge.Network.CodingChallengeService
+import io.reactivex.android.plugins.RxAndroidPlugins
+import io.reactivex.schedulers.Schedulers
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 
 class CodingChallengePresenterTest {
 
@@ -20,6 +23,9 @@ class CodingChallengePresenterTest {
 
     @Before
     fun setup() {
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler {
+            Schedulers.trampoline()
+        }
         view = mock(CodingChallengeFragmentView::class.java)
         model = mock(CodingChallengeModel::class.java)
         presenter = CodingChallengePresenter(view, model)
@@ -41,42 +47,28 @@ class CodingChallengePresenterTest {
     }
 
     @Test
-    fun `assert that onViewLoaded calls model init`() {
-        presenter.onViewLoaded()
-
-        verify(model).init(presenter)
-    }
-
-    @Test
-    fun `assert that onViewDetached calls model destroy`() {
-        presenter.onViewDetached()
-
-        verify(model).destroy()
-    }
-
-    @Test
-    fun `retrieverPage calls getUsersByPageNo with provided page`() {
+    fun `when retrievePage is called, getUsersByPageNo in model is called `() {
         presenter.retrievePage(PAGE_4)
 
         verify(model).getUsersByPageNo(PAGE_4.toInt())
     }
 
     @Test
-    fun `retrieverPage calls default getUsersByPageNo with no provided page`() {
+    fun `when retrievePage is called without argument, getUserByPageNo is called with default PageNo`() {
         presenter.retrievePage("")
 
         verify(model).getUsersByPageNo(DEFAULT_PAGE)
     }
 
     @Test
-    fun `userResponse calls view with user details`() {
+    fun `when userRepsonse is called, showMessage in View is called`() {
         presenter.userResponse(user)
 
         verify(view).showMessage(user.toString())
     }
 
     @Test
-    fun `userResponse with multiple page calls view with last user name`() {
+    fun `when usersResposne is called, showMessage is view is called with Last User detail, updateUser is called in model`() {
         val listOfUser = ArrayList<User>()
         listOfUser.add(user)
         listOfUser.add(user)
@@ -87,21 +79,21 @@ class CodingChallengePresenterTest {
     }
 
     @Test
-    fun `showMessage calls view's showMessage`() {
+    fun `when showMessage is called, showMessage in View is called`() {
         presenter.showMessage(LAST_USER_DETAIL)
 
         verify(view).showMessage(LAST_USER_DETAIL)
     }
 
     @Test
-    fun `deleteUser calls model's deleteUser`() {
+    fun `when deleteUser is called, deleteUser in model is called`() {
         presenter.deleteUser(PAGE_4)
 
         verify(model).deleteUser(PAGE_4.toInt())
     }
 
     @Test
-    fun `deleteUser without id calls model's deleteUser with default value`() {
+    fun `when deleteUser has no id, deleteUser in model is called with VALID_User id`() {
         presenter.deleteUser("")
 
         verify(model).deleteUser(VALID_USER)

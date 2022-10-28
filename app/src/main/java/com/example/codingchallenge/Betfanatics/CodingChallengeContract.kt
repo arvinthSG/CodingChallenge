@@ -1,6 +1,7 @@
 package com.example.codingchallenge.Betfanatics
 
 import com.example.codingchallenge.Data.User
+import com.example.codingchallenge.Network.CodingChallengeService
 
 interface CodingChallengeContract {
 
@@ -18,7 +19,7 @@ interface CodingChallengeContract {
     }
 
     interface Model {
-        fun init(onResponseListener: OnResponseListener)
+        fun init(onResponseListener: OnResponseListener, codingChallengeService: CodingChallengeService)
         fun getUsersByPageNo(pageNo: Int)
         fun updateUser(updatedUser: User)
         fun retreiveUser(userID: Int)
